@@ -1,0 +1,14 @@
+{
+  "name": "MIDDLEWARE",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "node-fetch": "^2.5.0",
+    "polka": "^0.5.2"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
+  }
+}
