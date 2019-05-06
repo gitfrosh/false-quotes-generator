@@ -1,25 +1,31 @@
 <script>
   let count = 0;
   let quote = "";
+  let celebrity = "";
+  let loading = false;
 
   async function getQuote() {
-    // count += 1;
+    count += 1;
     var urly = "http://localhost:3333/quote";
     let response = await fetch(urly);
     let data = await response.json();
     console.log(data);
-    return { quote: response }; // <!-- and we're returning the result, rather than this.set(...)
+    quote = data;
+    // return { quote: data }; // <!-- and we're returning the result, rather than this.set(...)
   }
   async function getCelebrity() {
     var urly = "http://localhost:3333/celebrity";
     let response = await fetch(urly);
     let data = await response.json();
     console.log(data);
-    return { celebrity: response };
+    celebrity = data;
+    // return { celebrity: response };
   }
   async function handleClick(event) {
-    getQuote();
-    getCelebrity();
+    loading = true;
+    await getQuote();
+    await getCelebrity();
+    loading = false;
   }
 
   function preload({ params, query }) {
@@ -30,6 +36,7 @@
 <style>
   h1,
   figure,
+  div,
   p {
     text-align: center;
     margin: 0 auto;
@@ -37,12 +44,66 @@
 
   .caption {
     margin: 0 auto;
-    padding-top: 200px;
+    padding-top: 2.5em;
     width: 70%;
   }
 
   .quote {
-    font-family: 'Libre Baskerville', Georgia, serif;
+    width: 70%;
+    font-size: 1.8em;
+    font-family: "Libre Baskerville", Georgia, serif;
+    font-style: italic;
+  }
+
+  .celebrity {
+    width: 70%;
+    text-align: right !important;
+  }
+
+  .btnPush:hover {
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+
+  .btnBlueGreen.btnPush:hover {
+    box-shadow: 0px 0px 0px 0px #007144;
+  }
+
+  a,
+  a:visited {
+    text-decoration: none;
+    color: #00ae68;
+  }
+
+  a.button {
+    /* display: block;
+    position: relative; 
+    float: left;*/
+    width: 120px;
+    padding: 10px 50px 10px 50px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 50px;
+    color: #fff;
+    border-radius: 5px;
+    transition: all 0.2s;
+  }
+
+  .btnBlueGreen.btnPush {
+    box-shadow: 0px 5px 0px 0px #007144;
+  }
+
+  .btnBlueGreen {
+    background: #00ae68;
+  }
+
+  .btnBlueGreen.btnPush:hover {
+    box-shadow: 0px 0px 0px 0px #007144;
+  }
+
+  .btnPush:hover {
+    margin-top: 15px;
+    margin-bottom: 5px;
   }
 
   h1 {
@@ -55,14 +116,16 @@
     margin: 0 0 1em 0;
   }
 
-  img {
+  .quote-img {
     width: 100%;
-    max-width: 400px;
+    max-width: 80px;
     margin: 0 0 1em 0;
   }
 
-  p {
-    margin: 1em auto;
+  .load-img {
+    width: 100%;
+    max-width: 30px;
+    margin: 0 0 1em 0;
   }
 
   @media (min-width: 480px) {
@@ -75,25 +138,48 @@
 <svelte:head>
   <title>Sapper project template</title>
 </svelte:head>
-<div class="caption">
-  <h1>false quotes generator</h1>
+<div id="wrapper">
+  <div id="content">
+    <div id="center">
+      <div class="caption">
+        <h1>false quotes generator</h1>
+      </div>
+
+
+      <div>
+        <figure>
+          <img class="quote-img" alt="Quote" src="quote.png" />
+          {#if loading}
+            <figcaption>
+              <p>
+                <img class="load-img" alt="Loading" src="ajax-loader.gif" />
+              </p>
+            </figcaption>
+          {/if}
+          {#if !loading}
+            <figcaption>
+              <p class="quote">{quote}</p>
+              <p class="celebrity">- {celebrity}</p>
+            </figcaption>
+          {/if}
+        </figure>
+        <span>
+          <a
+            on:click={handleClick}
+            href=""
+            title="Button push blue/green"
+            class="button btnPush btnBlueGreen">
+            GO!
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+  <footer>
+    Made with ♥ and
+    <a href="http://svelte.dev" target="_blank">Svelte.js</a>
+    by
+    <a href="https://rike.dev" target="_blank">Rike</a>
+    in 2019.
+  </footer>
 </div>
-
-<div>
-  <figure>
-    <img alt="Borat" src="great-success.png" />
-    <figcaption>HIGH FIVE!</figcaption>
-  </figure>
-
-  <p>
-    <strong>
-      Try editing this file (routes/index.html) to test live reloading.
-    </strong>
-
-    <button on:click={handleClick}>count: {count}</button>
-  </p>
-</div>
-
-<p class="quote">
-dsfdsfsf
-</p>
