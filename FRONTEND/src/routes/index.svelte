@@ -10,7 +10,7 @@
     quote = "";
     celebrity = "";
     error = "";
-    var urly = "http://localhost:3333/quote";
+    var urly = "/api/quote";
     try {
       let response = await timeoutPromise(5000, fetch(urly));
       let data = await response.json();
@@ -22,7 +22,7 @@
     }
   }
   async function getCelebrity() {
-    var urly = "http://localhost:3333/celebrity";
+    var urly = "/api/celebrity";
     try {
       let response = await timeoutPromise(5000, fetch(urly));
       let data = await response.json();
