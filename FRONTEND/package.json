@@ -1,6 +1,6 @@
 {
-  "name": "TODO",
-  "description": "TODO",
+  "name": "False Quotes Generator",
+  "description": "False Quotes Generator",
   "version": "0.0.1",
   "scripts": {
     "dev": "sapper dev",

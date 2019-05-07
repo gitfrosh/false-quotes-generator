@@ -1,27 +1,40 @@
 <script>
-  let count = 0;
+  import timeoutPromise from "../helpers";
+
   let quote = "";
   let celebrity = "";
   let loading = false;
+  let error = "";
 
   async function getQuote() {
-    count += 1;
+    quote = "";
+    celebrity = "";
+    error = "";
     var urly = "http://localhost:3333/quote";
-    let response = await fetch(urly);
-    let data = await response.json();
-    console.log(data);
-    quote = data;
-    // return { quote: data }; // <!-- and we're returning the result, rather than this.set(...)
+    try {
+      let response = await timeoutPromise(5000, fetch(urly));
+      let data = await response.json();
+      console.log(data);
+      quote = data;
+    } catch (error) {
+      error = error;
+      console.error(error);
+    }
   }
   async function getCelebrity() {
     var urly = "http://localhost:3333/celebrity";
-    let response = await fetch(urly);
-    let data = await response.json();
-    console.log(data);
-    celebrity = data;
-    // return { celebrity: response };
+    try {
+      let response = await timeoutPromise(5000, fetch(urly));
+      let data = await response.json();
+      console.log(data);
+      celebrity = data;
+    } catch (error) {
+      error = error;
+      console.error(error);
+    }
   }
   async function handleClick(event) {
+    event.preventDefault();
     loading = true;
     await getQuote();
     await getCelebrity();
@@ -156,7 +169,12 @@
               </p>
             </figcaption>
           {/if}
-          {#if !loading}
+          {#if error}
+            <figcaption>
+              <p>OUCH! Something went wrong. :(</p>
+            </figcaption>
+          {/if}
+          {#if !loading && quote && celebrity}
             <figcaption>
               <p class="quote">{quote}</p>
               <p class="celebrity">- {celebrity}</p>
@@ -166,7 +184,7 @@
         <span>
           <a
             on:click={handleClick}
-            href=""
+            href="https://rike.dev"
             title="Button push blue/green"
             class="button btnPush btnBlueGreen">
             GO!
