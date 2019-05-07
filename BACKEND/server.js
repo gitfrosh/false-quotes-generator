@@ -36,7 +36,7 @@ polka()
       console.error(e);
     }
   })
-  .listen(3333, err => {
+  .listen(process.env.PORT || 3333, err => {
     if (err) throw err;
     console.log(`> Running on localhost:3333`);
   });
