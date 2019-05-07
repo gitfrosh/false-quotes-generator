@@ -149,7 +149,7 @@
 </style>
 
 <svelte:head>
-  <title>Sapper project template</title>
+  <title>False Quotes Generator</title>
 </svelte:head>
 <div id="wrapper">
   <div id="content">
